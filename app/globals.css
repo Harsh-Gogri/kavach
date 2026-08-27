@@ -205,21 +205,16 @@ a {
 
 .nav-menu-button {
   display: none;
-  width: 40px;
-  height: 40px;
   flex-shrink: 0;
-  flex-direction: column;
   justify-content: center;
-  gap: 5px;
+  align-items: center;
   border: none;
-  border-radius: 9999px;
-  color: var(--ink);
   background: transparent;
   cursor: pointer;
 }
 .nav-menu-button img {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: block;
   object-fit: contain;
 }
@@ -1277,6 +1272,15 @@ a:focus-visible {
   border-radius: 12px;
   background: #fff;
 }
+.tracking-content p,
+.tracking-content dd,
+.tracking-content li,
+.tracking-content .table-category,
+.tracking-content .table-subcategory {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
 .tracking-table {
   width: 100%;
   min-width: 680px;
@@ -1398,7 +1402,8 @@ a:focus-visible {
   padding: 6px 10px;
   border-radius: 9999px;
   color: var(--ink);
-  background: #fff;
+  background: var(--surface);
+  /* border: 1.5px solid var(--hairline); */
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
@@ -1525,8 +1530,34 @@ a:focus-visible {
 
 @media (max-width: 767px) {
   .tracking-content {
-    padding: 32px 24px 48px;
+    padding: 32px 20px 48px;
   }
+  .tracking-table-wrap {
+    overflow-x: hidden;
+  }
+  .tracking-table {
+    min-width: 0;
+    table-layout: fixed;
+  }
+  .tracking-table thead th:nth-child(1),
+  .tracking-table thead th:nth-child(3),
+  .tracking-table tbody > .tracking-row > td:nth-child(1),
+  .tracking-table tbody > .tracking-row > td:nth-child(3) {
+    display: none;
+  }
+  .tracking-table thead th:nth-child(2),
+  .tracking-table tbody > .tracking-row > td:nth-child(2) {
+    width: 50%;
+  }
+  .tracking-table thead th:nth-child(4),
+  .tracking-table tbody > .tracking-row > td:nth-child(4) {
+    width: 50%;
+    text-align: center;
+  }
+  /* .tracking-table th,
+  .tracking-table td {
+    padding: 16px 12px;
+  } */
   .complaint-preview {
     align-items: flex-start;
     flex-direction: column;
@@ -1542,7 +1573,7 @@ a:focus-visible {
     padding: 0 16px 16px;
   }
   .tracking-block {
-    padding: 20px;
+    padding: 32px 24px;
   }
   .details-grid {
     grid-template-columns: 1fr;
