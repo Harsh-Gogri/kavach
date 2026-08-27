@@ -10,7 +10,7 @@ export default function Home() {
         <article className="action-box">
           <div className="action-copy">
             <h1>Register a complaint</h1>
-            <p>File a report for financial fraud, harassment, or any other cyber crime, and get a reference number you can track later.</p>
+            <p>File a report for financial fraud, harassment, or any other cyber crime, and get a acknowledgement number you can track later.</p>
           </div>
           <a className="button button-primary" href="/report">
             Report a complaint
@@ -61,7 +61,6 @@ export default function Home() {
           </a>
         </article>
       </section>
-
 
       <SiteFooter />
     </main>

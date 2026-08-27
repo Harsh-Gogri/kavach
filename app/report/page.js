@@ -438,7 +438,7 @@ export default function ReportPage() {
           </div>
           {voiceState !== "idle" && <span className="voice-state-text">{voiceState === "listening" ? "Listening..." : voiceState === "thinking" ? "Thinking..." : "Speaking..."}</span>}
           <h2 id="voice-heading">Talk it through</h2>
-          <p>Explain what happened, we'll ask a couple of quick questions if we need to</p>
+          <p>(Currently fluent with English & Hindi)</p>
           {error && (
             <p className="voice-error" role="alert">
               {error}

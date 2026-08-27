@@ -237,12 +237,12 @@ a {
 }
 
 .action-box {
-  padding: 48px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 60px;
+  gap: 52px;
   /* border: 1px solid var(--hairline); */
   border-radius: 16px;
   background-color: var(--surface);
@@ -958,7 +958,7 @@ a:focus-visible {
 }
 
 .summary-content {
-  padding: 48px 32px;
+  padding: 32px 32px 64px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -1063,7 +1063,7 @@ a:focus-visible {
 }
 
 .complaint-form-content {
-  padding: 48px 32px 64px;
+  padding: 32px 32px 64px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -1233,7 +1233,7 @@ a:focus-visible {
 }
 
 .tracking-content {
-  padding: 48px 32px 64px;
+  padding: 32px 32px 64px;
   display: flex;
   flex-direction: column;
   gap: 32px;
