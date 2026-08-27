@@ -62,17 +62,6 @@ export default function Home() {
         </article>
       </section>
 
-      <section className="action-grid" aria-label="Learning action">
-        <article className="action-box">
-          <div className="action-copy">
-            <h2>Learning corner</h2>
-            <p>Browse safety tips, official advisories, and answers to common questions about staying safe online.</p>
-          </div>
-          <a className="button button-outline" href="#learning">
-            Learn more
-          </a>
-        </article>
-      </section>
 
       <SiteFooter />
     </main>

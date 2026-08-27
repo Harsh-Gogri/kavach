@@ -46,23 +46,7 @@ export default function ReportPage() {
 
   const inferLanguage = (text, whisperLanguage) => {
     const normalized = typeof text === "string" ? text : "";
-    const scriptLanguage = /[\u0B80-\u0BFF]/u.test(normalized)
-      ? "ta"
-      : /[\u0C00-\u0C7F]/u.test(normalized)
-        ? "te"
-        : /[\u0980-\u09FF]/u.test(normalized)
-          ? "bn"
-          : /[\u0A80-\u0AFF]/u.test(normalized)
-            ? "gu"
-            : /[\u0C80-\u0CFF]/u.test(normalized)
-              ? "kn"
-              : /[\u0D00-\u0D7F]/u.test(normalized)
-                ? "ml"
-                : /[\u0A00-\u0A7F]/u.test(normalized)
-                  ? "pa"
-                  : /[\u0B00-\u0B7F]/u.test(normalized)
-                    ? "or"
-                    : null;
+    const scriptLanguage = /[\u0B80-\u0BFF]/u.test(normalized) ? "ta" : /[\u0C00-\u0C7F]/u.test(normalized) ? "te" : /[\u0980-\u09FF]/u.test(normalized) ? "bn" : /[\u0A80-\u0AFF]/u.test(normalized) ? "gu" : /[\u0C80-\u0CFF]/u.test(normalized) ? "kn" : /[\u0D00-\u0D7F]/u.test(normalized) ? "ml" : /[\u0A00-\u0A7F]/u.test(normalized) ? "pa" : /[\u0B00-\u0B7F]/u.test(normalized) ? "or" : null;
     if (scriptLanguage) return scriptLanguage;
     if (/[\u0900-\u097F]/u.test(normalized)) {
       if (marathiSignals.test(normalized)) return "mr";
@@ -118,10 +102,7 @@ export default function ReportPage() {
 
   const navigateToCategory = (id) => {
     if (typeof window !== "undefined" && transcriptRef.current.length) {
-      sessionStorage.setItem(
-        "cyber-report-conversation",
-        JSON.stringify({ category: id, transcript: transcriptRef.current }),
-      );
+      sessionStorage.setItem("cyber-report-conversation", JSON.stringify({ category: id, transcript: transcriptRef.current }));
     }
     resetConversation();
     router.push(`/report/${id}`);
@@ -275,7 +256,7 @@ export default function ReportPage() {
       const result = await response.json();
       if (cancelledRef.current) return;
       if (!response.ok) throw new Error(result.error || "Transcription failed");
-    const detectedLanguage = inferLanguage(result.text || "", result.language);
+      const detectedLanguage = inferLanguage(result.text || "", result.language);
       if (detectedLanguage) {
         languageRef.current = detectedLanguage;
         languageEvidenceRef.current = scriptLanguageCodes.has(detectedLanguage) ? "script" : result.language ? "whisper" : "inferred";
@@ -414,25 +395,27 @@ export default function ReportPage() {
     <main className={`site-shell report-shell${focused ? " is-focused" : ""}`}>
       <SiteNav />
       <section className="report-content" aria-labelledby="report-heading">
-        <header className="report-header">
-          <h1 id="report-heading">What happened?</h1>
-          <p>Pick the option closest to your situation</p>
-        </header>
-        <div className="report-options" aria-label="Choose what happened">
-          {categories.map((category) => (
-            <article className="report-option" key={category.id}>
-              <svg className="report-option-icon" viewBox="0 0 24 24" aria-hidden="true">
-                {categoryIcons[category.id]}
-              </svg>
-              <span className="report-option-content">
-                <span className="report-option-title">{category.title}</span>
-                <span className="report-option-description">{category.cardDescription}</span>
-              </span>
-              <a className="button button-outline" href={`/report/${category.id}`}>
-                Proceed
-              </a>
-            </article>
-          ))}
+        <div className="report-selection">
+          <header className="report-header">
+            <h1 id="report-heading">What happened?</h1>
+            <p>Pick the option closest to your situation</p>
+          </header>
+          <div className="report-options" aria-label="Choose what happened">
+            {categories.map((category) => (
+              <article className="report-option" key={category.id}>
+                <svg className="report-option-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  {categoryIcons[category.id]}
+                </svg>
+                <span className="report-option-content">
+                  <span className="report-option-title">{category.title}</span>
+                  <span className="report-option-description">{category.cardDescription}</span>
+                </span>
+                <a className="button button-outline" href={`/report/${category.id}`}>
+                  Proceed
+                </a>
+              </article>
+            ))}
+          </div>
         </div>
         <div className="report-divider" />
         <section className="voice-card" aria-labelledby="voice-heading">

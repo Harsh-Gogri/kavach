@@ -141,7 +141,6 @@ export default function ComplaintFormPage({ params }) {
       <section className="complaint-form-content" aria-labelledby="complaint-form-heading">
         <a className="summary-back" href={`/report/${category.id}`}>Back to case summary</a>
         <div className="complaint-form-intro">
-          <p className="form-eyebrow">Complaint details</p>
           <h1 id="complaint-form-heading">{category.title}</h1>
           <p>Share what you know. You can save any supporting documents for the final step.</p>
         </div>

@@ -44,7 +44,6 @@ export default function TrackPage() {
       <section className="tracking-content" aria-labelledby="tracking-heading">
         <div className="tracking-intro">
           <a className="summary-back" href="/">Back to home</a>
-          <p className="form-eyebrow">Complaint tracking</p>
           <h1 id="tracking-heading">Where your case stands</h1>
           <p>Choose a complaint to see its latest status, assigned officer, and action timeline.</p>
         </div>

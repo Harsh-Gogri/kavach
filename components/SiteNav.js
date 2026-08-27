@@ -68,9 +68,7 @@ export default function SiteNav() {
         )}
       </div>
       <button className="nav-menu-button" type="button" aria-label="Open navigation menu">
-        <span />
-        <span />
-        <span />
+        <img src="/assets/menu.png" alt="" aria-hidden="true" />
       </button>
     </nav>
   );
