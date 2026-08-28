@@ -3,7 +3,7 @@
 import { use, useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import { getCategoryById } from "../../../../lib/categories";
-import { supabase } from "../../../../lib/supabase";
+
 import SiteFooter from "../../../../components/SiteFooter";
 import SiteNav from "../../../../components/SiteNav";
 
@@ -72,6 +72,15 @@ export default function ComplaintFormPage({ params }) {
     const pad = (value) => String(value).padStart(2, "0");
     const acknowledgementNumber = `30${String(submittedAt.getFullYear()).slice(-2)}${pad(submittedAt.getMonth() + 1)}${pad(submittedAt.getDate())}${pad(submittedAt.getHours())}${pad(submittedAt.getMinutes())}${pad(submittedAt.getSeconds())}`;
     setAcknowledgementNumber(acknowledgementNumber);
+    try {
+      const recent = JSON.parse(localStorage.getItem("cyber-report-recent-acknowledgements") || "[]");
+      const numbers = [acknowledgementNumber, ...(Array.isArray(recent) ? recent : [])]
+        .filter((number, index, list) => list.indexOf(number) === index)
+        .slice(0, 3);
+      localStorage.setItem("cyber-report-recent-acknowledgements", JSON.stringify(numbers));
+    } catch {
+      // Local convenience storage is optional and never blocks submission.
+    }
     const answers = fields.map((field) => ({
       label: field.label,
       value: String(formData.get(field.name) || "").trim(),
@@ -84,52 +93,25 @@ export default function ComplaintFormPage({ params }) {
     const amountText = String(formData.get("amount") || "").replace(/[^0-9.]/g, "");
     const amount = amountText ? Number(amountText) : null;
 
-    const { data: complaint, error: complaintError } = await supabase
-      .from("complaints")
-      .insert({
-        acknowledgement_number: acknowledgementNumber,
-        incident_category: category.title,
-        incident_subcategory: category.cardDescription,
-        incident_at: incidentDate,
-        submitted_at: submittedAt.toISOString(),
-        current_status: "Under Process",
-        status_summary: "Complaint submitted; pending verification by the assigned cyber cell.",
-        assigned_state: "Maharashtra",
-        assigned_district: "Pune",
-        cyber_cell_station: "Pune Cyber Crime Police Station",
-        investigating_officer: "Harsh Gogri",
-        transaction_amount: Number.isFinite(amount) ? amount : null,
-        bank_wallet_name: String(formData.get("paymentDetails") || "") || null,
-        submitted_details: { answers, documents },
-      })
-      .select("id")
-      .single();
-
-    if (complaintError) {
-      setError("We couldn't save your complaint. Please try again.");
+    const response = await fetch("/api/complaints", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        acknowledgementNumber,
+        incidentCategory: category.title,
+        incidentSubcategory: category.cardDescription,
+        incidentAt: incidentDate,
+        submittedAt: submittedAt.toISOString(),
+        transactionAmount: Number.isFinite(amount) ? amount : null,
+        bankWalletName: String(formData.get("paymentDetails") || "") || null,
+        submittedDetails: { answers, documents },
+      }),
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      setError(result.error || "We couldn't save your complaint. Please try again.");
       setSaving(false);
       return;
-    }
-
-    const { error: timelineError } = await supabase.from("complaint_timeline").insert([
-      {
-        complaint_id: complaint.id,
-        step_number: 1,
-        title: "Complaint Submitted",
-        description: "Your complaint was submitted and acknowledgement number was generated.",
-        occurred_at: submittedAt.toISOString(),
-      },
-      {
-        complaint_id: complaint.id,
-        step_number: 2,
-        title: "Pending Verification / Assigned to Cyber Cell",
-        description: "The complaint is awaiting verification. Investigating officer: Harsh Gogri.",
-        occurred_at: submittedAt.toISOString(),
-      },
-    ]);
-
-    if (timelineError) {
-      setError("Your complaint was saved, but its timeline could not be created.");
     }
     setSaving(false);
     setSubmitted(true);

@@ -1,5 +1,4 @@
 import "./globals.css";
-import AuthGate from "../components/AuthGate";
 
 export const metadata = {
   title: "Cyber Crime Reporting",
@@ -9,7 +8,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body><AuthGate>{children}</AuthGate></body>
+      <body>{children}</body>
     </html>
   );
 }

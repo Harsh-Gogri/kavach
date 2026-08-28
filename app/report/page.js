@@ -421,7 +421,7 @@ export default function ReportPage() {
         <section className="voice-card" aria-labelledby="voice-heading">
           {focused && (
             <button className="voice-close" type="button" aria-label="Cancel voice conversation" onClick={resetConversation}>
-              ×
+              Cancel
             </button>
           )}
           <div className="voice-orb-wrap">
